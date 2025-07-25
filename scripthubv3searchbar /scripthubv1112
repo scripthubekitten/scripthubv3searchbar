@@ -284,11 +284,28 @@ function DiscordLib:Window(text)
 	ServersHoldLayout.Padding = UDim.new(0, 7)
 
 	
--- Create Search Bar for ServersHold
+-- Create a Frame to hold SearchBar and Icon
+local SearchFrame = Instance.new("Frame")
+SearchFrame.Name = "SearchFrame"
+SearchFrame.Size = UDim2.new(0, 70, 0, 25)
+SearchFrame.Position = UDim2.new(0, 3, 0, 3)
+SearchFrame.BackgroundTransparency = 1
+SearchFrame.Parent = ServersHold
+
+-- Search Icon
+local SearchIcon = Instance.new("ImageLabel")
+SearchIcon.Name = "SearchIcon"
+SearchIcon.Size = UDim2.new(0, 20, 0, 20)
+SearchIcon.Position = UDim2.new(0, 0, 0, 2)
+SearchIcon.BackgroundTransparency = 1
+SearchIcon.Image = "rbxassetid://7072718362"  -- magnifying glass icon
+SearchIcon.Parent = SearchFrame
+
+-- Search Bar
 local SearchBar = Instance.new("TextBox")
 SearchBar.Name = "SearchBar"
-SearchBar.Size = UDim2.new(0, 65, 0, 25)
-SearchBar.Position = UDim2.new(0, 3, 0, 3)
+SearchBar.Size = UDim2.new(1, -25, 1, 0)
+SearchBar.Position = UDim2.new(0, 25, 0, 0)
 SearchBar.PlaceholderText = "Search"
 SearchBar.BackgroundColor3 = Color3.fromRGB(41, 43, 47)
 SearchBar.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -296,7 +313,7 @@ SearchBar.BorderSizePixel = 0
 SearchBar.ClearTextOnFocus = false
 SearchBar.Font = Enum.Font.Gotham
 SearchBar.TextSize = 13
-SearchBar.Parent = ServersHold
+SearchBar.Parent = SearchFrame
 
 -- Search logic
 SearchBar:GetPropertyChangedSignal("Text"):Connect(function()
