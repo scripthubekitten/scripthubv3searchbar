@@ -1,58 +1,3 @@
--- Load UI Library (if applicable)
-local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
-ScreenGui.Name = "MobileDiscordUI"
-
--- ChannelList Frame (mocked for this example)
-local ChannelList = Instance.new("ScrollingFrame")
-ChannelList.Name = "ChannelList"
-ChannelList.Size = UDim2.new(0, 250, 0, 400)
-ChannelList.Position = UDim2.new(0, 10, 0, 100)
-ChannelList.CanvasSize = UDim2.new(0, 0, 0, 1000)
-ChannelList.ScrollBarThickness = 4
-ChannelList.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-ChannelList.Parent = ScreenGui
-
--- Add UIListLayout
-local Layout = Instance.new("UIListLayout", ChannelList)
-Layout.Padding = UDim.new(0, 5)
-Layout.SortOrder = Enum.SortOrder.LayoutOrder
-
--- Create Search Bar
-local SearchBar = Instance.new("TextBox")
-SearchBar.Name = "SearchBar"
-SearchBar.Size = UDim2.new(1, -10, 0, 30)
-SearchBar.Position = UDim2.new(0, 5, 0, 5)
-SearchBar.PlaceholderText = "Search Channels..."
-SearchBar.Text = ""
-SearchBar.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-SearchBar.TextColor3 = Color3.fromRGB(255, 255, 255)
-SearchBar.BorderSizePixel = 0
-SearchBar.ClearTextOnFocus = false
-SearchBar.Parent = ChannelList
-
--- Example Channel Buttons
-for i = 1, 20 do
-    local btn = Instance.new("TextButton")
-    btn.Name = "Channel" .. i
-    btn.Text = "Channel " .. i
-    btn.Size = UDim2.new(1, -10, 0, 30)
-    btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    btn.Parent = ChannelList
-end
-
--- Search Logic
-SearchBar:GetPropertyChangedSignal("Text"):Connect(function()
-    local query = SearchBar.Text:lower()
-    for _, item in ipairs(ChannelList:GetChildren()) do
-        if item:IsA("TextButton") then
-            local itemName = item.Text:lower()
-            item.Visible = itemName:find(query) ~= nil
-        end
-    end
-end)
-
-
 --// Mobile Support Has Been Added By TheRealX_ORA \\--
 local DiscordLib = {}
 local UserInputService = game:GetService("UserInputService")
@@ -338,7 +283,33 @@ function DiscordLib:Window(text)
 	ServersHoldLayout.SortOrder = Enum.SortOrder.LayoutOrder
 	ServersHoldLayout.Padding = UDim.new(0, 7)
 
-	ServersHoldPadding.Name = "ServersHoldPadding"
+	
+-- Create Search Bar for ServersHold
+local SearchBar = Instance.new("TextBox")
+SearchBar.Name = "SearchBar"
+SearchBar.Size = UDim2.new(0, 65, 0, 25)
+SearchBar.Position = UDim2.new(0, 3, 0, 3)
+SearchBar.PlaceholderText = "Search"
+SearchBar.BackgroundColor3 = Color3.fromRGB(41, 43, 47)
+SearchBar.TextColor3 = Color3.fromRGB(255, 255, 255)
+SearchBar.BorderSizePixel = 0
+SearchBar.ClearTextOnFocus = false
+SearchBar.Font = Enum.Font.Gotham
+SearchBar.TextSize = 13
+SearchBar.Parent = ServersHold
+
+-- Search logic
+SearchBar:GetPropertyChangedSignal("Text"):Connect(function()
+    local query = SearchBar.Text:lower()
+    for _, child in ipairs(ServersHold:GetChildren()) do
+        if child:IsA("TextButton") then
+            local text = (child.Text or ""):lower()
+            child.Visible = text:find(query) ~= nil
+        end
+    end
+end)
+
+ServersHoldPadding.Name = "ServersHoldPadding"
 	ServersHoldPadding.Parent = ServersHold
 
 	CloseBtn.MouseButton1Click:Connect(
